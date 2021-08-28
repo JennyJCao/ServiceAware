@@ -22,7 +22,9 @@ func routes() http.Handler {
 
 	mux.Get("/user/logout", handlers.Repo.Logout)
 
-	// check the auth before using pusher
+	mux.Get("/pusher-test", handlers.Repo.TestPusher)
+
+	// our pusher routes
 	mux.Route("/pusher", func(mux chi.Router) {
 		mux.Use(Auth)
 		mux.Post("/auth", handlers.Repo.PusherAuth)
