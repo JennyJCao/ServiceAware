@@ -1,7 +1,34 @@
 package handlers
-//
-//import "net/http"
-//
-//func (repo *DBRepo) PusherAuth(w http.ResponseWriter, r *http.Request) {
-//
-//}
+
+import (
+	"github.com/pusher/pusher-http-go"
+	"io/ioutil"
+	"log"
+	"net/http"
+	"strconv"
+)
+
+func (repo *DBRepo) PusherAuth(w http.ResponseWriter, r *http.Request) {
+	userID := repo.App.Session.GetInt(r.Context(), "userID")
+
+	u, _ := repo.DB.GetUserById(userID)
+
+	params, _ := ioutil.ReadAll(r.Body)
+
+	presentData := pusher.MemberData{
+		UserID: strconv.Itoa(userID),
+		UserInfo: map[string]string{
+			"name": u.FirstName,
+			"id":   strconv.Itoa(userID),
+		},
+	}
+
+	response, err := app.WsClient.AuthenticatePresenceChannel(params, presentData)
+	if err != nil {
+		log.Println(err)
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	_, _ = w.Write(response)
+}
