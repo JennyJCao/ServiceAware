@@ -228,6 +228,7 @@ Host
                 .then(response => response.json())
                 .then(data => {
                     console.log("called ajax");
+                    console.log("OK is ", data.ok);
                 })
             })
         }
