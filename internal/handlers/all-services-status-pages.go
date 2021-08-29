@@ -52,7 +52,7 @@ func (repo *DBRepo) AllProblemServices(w http.ResponseWriter, r *http.Request) {
 	vars := make(jet.VarMap)
 	vars.Set("services", services)
 
-	err = helpers.RenderPage(w, r, "problem", vars, nil)
+	err = helpers.RenderPage(w, r, "problems", vars, nil)
 	if err != nil {
 		printTemplateError(w, err)
 	}
