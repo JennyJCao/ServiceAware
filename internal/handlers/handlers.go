@@ -373,14 +373,12 @@ func (repo *DBRepo) ToggleServiceForHost(w http.ResponseWriter, r *http.Request)
 	serviceID, _ := strconv.Atoi(r.Form.Get("service_id"))
 	active, _ := strconv.Atoi(r.Form.Get("active"))
 
-	log.Println("Data:", hostID, serviceID, active)
-
 	err = repo.DB.UpdateHostServiceStatus(hostID, serviceID, active)
 	if err != nil {
 		log.Println(err)
 		resp.OK = false
 	}
-	
+
 	out, _ := json.MarshalIndent(resp, "", "    ")
 	w.Header().Set("Content-Type", "application/json")
 	w.Write(out)
