@@ -2,6 +2,9 @@
 
 {{block css()}}
 <style>
+.pointer {
+    cursor: pointer;
+}
 
 </style>
 {{end}}
@@ -193,7 +196,7 @@ Host
                                             <td>
                                                 <span class="{{.Service.Icon}}"></span>
                                                 {{.Service.ServiceName}}
-                                                <span class="badge bg-secondary" onclick="checkNow({{.ID}}, 'healthy')">
+                                                <span class="badge bg-secondary pointer" onclick="checkNow({{.ID}}, 'healthy')">
                                                     Check Now
                                                 </span>
                                             </td>
@@ -234,7 +237,7 @@ Host
                                             <td>
                                                 <span class="{{.Service.Icon}}"></span>
                                                 {{.Service.ServiceName}}
-                                                <span class="badge bg-secondary" onclick="checkNow({{.ID}}, 'warning')">
+                                                <span class="badge bg-secondary pointer" onclick="checkNow({{.ID}}, 'warning')">
                                                     Check Now
                                                 </span>
                                             </td>
@@ -275,7 +278,7 @@ Host
                                             <td>
                                                 <span class="{{.Service.Icon}}"></span>
                                                 {{.Service.ServiceName}}
-                                                <span class="badge bg-secondary" onclick="checkNow({{.ID}}, 'problem')">
+                                                <span class="badge bg-secondary pointer" onclick="checkNow({{.ID}}, 'problem')">
                                                     Check Now
                                                 </span>
                                             </td>
@@ -316,7 +319,7 @@ Host
                                             <td>
                                                 <span class="{{.Service.Icon}}"></span>
                                                 {{.Service.ServiceName}}
-                                                <span class="badge bg-secondary" onclick="checkNow({{.ID}}, 'pending')">
+                                                <span class="badge bg-secondary pointer" onclick="checkNow({{.ID}}, 'pending')">
                                                     Check Now
                                                 </span>
                                             </td>
