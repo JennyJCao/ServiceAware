@@ -190,7 +190,34 @@ Host
 
                     <div class="tab-pane fade" role="tabpanel" aria-labelledby="pending-tab"
                          id="pending-content">
-                        pending content
+                        <div class="row">
+                            <div class="col">
+                                <h4 class="pt-3">Pending Services</h4>
+                                <table class="table table-striped">
+                                    <thead>
+                                    <tr>
+                                        <th>Service</th>
+                                        <th>Last Check</th>
+                                        <th>Message</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {{range host.HostServices}}
+                                        {{if .Status == "pending"}}
+                                        <tr>
+                                            <td>
+                                                {{.Service.ServiceName}}
+
+                                            </td>
+                                            <td>{{.LastCheck}}</td>
+                                            <td></td>
+                                        </tr>
+                                        {{end}}
+                                    {{end}}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                     </div>
                 {{end}}
             </div>
