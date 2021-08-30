@@ -207,7 +207,9 @@ Host
                                         <tr>
                                             <td>
                                                 {{.Service.ServiceName}}
-
+                                                <span class="badge bg-secondary" onclick="checkNow({{.ID}})">
+                                                    Check Now
+                                                </span>
                                             </td>
                                             <td>{{.LastCheck}}</td>
                                             <td></td>
@@ -296,6 +298,10 @@ Host
         if (form.checkValidity() === true) {
             form.submit();
         }
+    }
+
+    function checkNow(id) {
+        console.log("Clicked check now");
     }
 </script>
 
