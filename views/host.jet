@@ -191,6 +191,7 @@ Host
                                         {{if .Status == "healthy"}}
                                         <tr>
                                             <td>
+                                                <span class="{{.Service.Icon}}"></span>
                                                 {{.Service.ServiceName}}
                                                 <span class="badge bg-secondary" onclick="checkNow({{.ID}})">
                                                     Check Now
@@ -231,6 +232,7 @@ Host
                                         {{if .Status == "warning"}}
                                         <tr>
                                             <td>
+                                                <span class="{{.Service.Icon}}"></span>
                                                 {{.Service.ServiceName}}
                                                 <span class="badge bg-secondary" onclick="checkNow({{.ID}})">
                                                     Check Now
@@ -271,6 +273,7 @@ Host
                                         {{if .Status == "problem"}}
                                         <tr>
                                             <td>
+                                                <span class="{{.Service.Icon}}"></span>
                                                 {{.Service.ServiceName}}
                                                 <span class="badge bg-secondary" onclick="checkNow({{.ID}})">
                                                     Check Now
@@ -311,6 +314,7 @@ Host
                                         {{if .Status == "pending"}}
                                         <tr>
                                             <td>
+                                                <span class="{{.Service.Icon}}"></span>
                                                 {{.Service.ServiceName}}
                                                 <span class="badge bg-secondary" onclick="checkNow({{.ID}})">
                                                     Check Now
