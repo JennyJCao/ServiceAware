@@ -57,7 +57,7 @@ func (repo *DBRepo) TestCheck(w http.ResponseWriter, r *http.Request) {
 
 	// update the host service in the database with status (if changed) and last check
 
-	// broadcast service status changed event
+	// broadcast service status changed event -using websocket
 
 	// create json
 	var resp jsonResp
