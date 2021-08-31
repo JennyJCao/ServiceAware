@@ -15,6 +15,7 @@ func (j job) Run() {
 
 // startMonitoring starts the monitoring process
 func startMonitoring() {
+	log.Println("*************** starting monitor")
 	if preferenceMap["monitoring_live"] == "1" {
 		// trigger a message to broadcast to all clients that app is starting to monitor
 		data := make(map[string]string)
