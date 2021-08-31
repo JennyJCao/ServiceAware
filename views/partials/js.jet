@@ -98,6 +98,7 @@
         }
     }
 
+    // toggle monitoring means changing the status of monitoring
     function toggleMonitoring(enabled) {
         let formData = new FormData();
         formData.append("enabled", enabled);
