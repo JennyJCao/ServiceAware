@@ -36,8 +36,6 @@ func (repo *DBRepo) TestCheck(w http.ResponseWriter, r *http.Request) {
 	oldStatus := chi.URLParam(r, "oldStatus")
 	okay := true
 
-	log.Println(hostServiceID, oldStatus)
-
 	// get host service
 	hs, err := repo.DB.GetHostServiceByID(hostServiceID)
 	if err != nil {
@@ -45,8 +43,6 @@ func (repo *DBRepo) TestCheck(w http.ResponseWriter, r *http.Request) {
 		okay = false
 		return
 	}
-
-	log.Println("Service name is", hs.Service.ServiceName)
 
 	// get host
 	h, err := repo.DB.GetHostByID(hs.HostID)
@@ -58,7 +54,10 @@ func (repo *DBRepo) TestCheck(w http.ResponseWriter, r *http.Request) {
 
 	// test the service
 	newStatus, msg := repo.testServiceForHost(h, hs)
-	log.Println(newStatus, msg)
+
+	// update the host service in the database with status (if changed) and last check
+
+	// broadcast service status changed event
 
 	// create json
 	var resp jsonResp
