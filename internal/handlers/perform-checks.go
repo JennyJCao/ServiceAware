@@ -10,6 +10,13 @@ import (
 	"time"
 )
 
+const (
+	HTTP           = 1
+	HTTPS          = 2
+	SSLCertificate = 3
+)
+
+
 type jsonResp struct {
 	OK            bool      `json:"ok"`
 	Message       string    `json:"message"`
