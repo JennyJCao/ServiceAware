@@ -1,6 +1,9 @@
 package main
 
-import "log"
+import (
+	"fmt"
+	"log"
+)
 
 // job is the unit of work to be performed
 type job struct {
@@ -15,7 +18,6 @@ func (j job) Run() {
 
 // startMonitoring starts the monitoring process
 func startMonitoring() {
-	log.Println("*************** starting monitor")
 	if preferenceMap["monitoring_live"] == "1" {
 		// trigger a message to broadcast to all clients that app is starting to monitor
 		data := make(map[string]string)
@@ -32,22 +34,31 @@ func startMonitoring() {
 			log.Println(err)
 		}
 
-		log.Println("Length of servicesToMonitor is", len(servicesToMonitor))
-
+		// range through the services
 		for _, x := range servicesToMonitor {
 			log.Println("*** Service to monitor on", x.HostName, "is", x.Service.ServiceName)
+
+			// get the schedule unit and number
+			var sch string // scheduler
+			// "@every 3m": is the cron expression
+			if x.ScheduleUnit == "d" {
+				sch = fmt.Sprintf("@every %d%s", x.ScheduleNumber*24, "h")
+			} else {
+				sch = fmt.Sprintf("@every %d%s", x.ScheduleNumber, x.ScheduleUnit)
+			}
+
+			// create a job
+			var j job
+			j.HostServiceID = x.ID
+			scheduleID, err := app.Scheduler.AddJob(sch, j)
+			if err != nil {
+				log.Println(err)
+			}
+
+			// save the id of the job so we can start/stop it
+
+			// broadcast over websockets the fact that the service is scheduled
+
 		}
-
-		// range through the services
-
-		// get the schedule unit and number
-
-		// create a job
-
-		// save the id of the job so we can start/stop it
-
-		// broadcast over websockets the fact that the service is scheduled
-
-		// end range
 	}
 }
