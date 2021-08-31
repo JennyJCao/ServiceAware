@@ -2,11 +2,13 @@ package handlers
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/go-chi/chi"
 	"github.com/tsawler/vigilate/internal/models"
 	"log"
 	"net/http"
 	"strconv"
+	"strings"
 	"time"
 )
 
@@ -52,7 +54,8 @@ func (repo *DBRepo) TestCheck(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// test the service
-	repo.testServiceForHost(h, hs)
+	newStatus, msg := repo.testServiceForHost(h, hs)
+	log.Println(newStatus, msg)
 
 	// create json
 	resp := jsonResp{
@@ -69,6 +72,42 @@ func (repo *DBRepo) TestCheck(w http.ResponseWriter, r *http.Request) {
 }
 
 // testServiceForHost tests a service for a host
-func (repo *DBRepo) testServiceForHost(h models.Host, hs models.HostService) {
+func (repo *DBRepo) testServiceForHost(h models.Host, hs models.HostService) (string, string){
+	var msg, newStatus string
 
+	switch hs.ServiceID {
+	case HTTP:
+		newStatus, msg = testHTTPForHost(h.URL)
+		break
+	}
+
+	return newStatus, msg
 }
+
+// testHTTPForHost tests HTTP service
+func testHTTPForHost(url string) (string, string) {
+	// trim the suffix of url if it's '/'
+	if strings.HasSuffix(url, "/") {
+		url = strings.TrimSuffix(url, "/")
+	}
+
+	// we only test 'http://' instead of 'https://'
+	// n = -1: we want to replace it everywhere of url
+	url = strings.Replace(url, "https://", "http://", -1)
+
+	// send the request to test
+	resp, err := http.Get(url)
+	if err != nil {
+		return "problem", fmt.Sprintf("%s - %s", url, "error connecting")
+	}
+	defer resp.Body.Close()
+
+	// if status code is not 200, something went wrong
+	if resp.StatusCode != http.StatusOK {
+		return "problem", fmt.Sprintf("%s - %s", url, resp.Status)
+	}
+
+	return "healthy", fmt.Sprintf("%s - %s", url, resp.Status)
+}
+
+
