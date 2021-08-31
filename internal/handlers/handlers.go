@@ -412,7 +412,6 @@ func (repo *DBRepo) SetSystemPref(w http.ResponseWriter, r *http.Request) {
 		resp.Message = err.Error()
 	}
 
-
 	out, _ := json.MarshalIndent(resp, "", "   ")
 
 	w.Header().Set("Content-Type", "application/json")

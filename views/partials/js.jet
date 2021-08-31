@@ -92,7 +92,7 @@
             if (ajax.readyState === 4) {
                 let resp = ajax.response;
                 if (!resp.ok) {
-                    errorAler("Errors: " + resp.message);
+                    errorAlert("Errors: " + resp.message);
                 }
             }
         }
