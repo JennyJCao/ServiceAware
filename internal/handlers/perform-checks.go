@@ -34,6 +34,7 @@ type jsonResp struct {
 func (repo *DBRepo) TestCheck(w http.ResponseWriter, r *http.Request) {
 	hostServiceID, _ := strconv.Atoi(chi.URLParam(r, "id"))
 	oldStatus := chi.URLParam(r, "oldStatus")
+	okay := true
 
 	log.Println(hostServiceID, oldStatus)
 
@@ -41,6 +42,7 @@ func (repo *DBRepo) TestCheck(w http.ResponseWriter, r *http.Request) {
 	hs, err := repo.DB.GetHostServiceByID(hostServiceID)
 	if err != nil {
 		log.Println(err)
+		okay = false
 		return
 	}
 
@@ -50,6 +52,7 @@ func (repo *DBRepo) TestCheck(w http.ResponseWriter, r *http.Request) {
 	h, err := repo.DB.GetHostByID(hs.HostID)
 	if err != nil {
 		log.Println(err)
+		okay = false
 		return
 	}
 
@@ -58,14 +61,24 @@ func (repo *DBRepo) TestCheck(w http.ResponseWriter, r *http.Request) {
 	log.Println(newStatus, msg)
 
 	// create json
-	resp := jsonResp{
-		OK:      true,
-		Message: "test message",
+	var resp jsonResp
+	if okay {
+		resp = jsonResp{
+			OK:            true,
+			Message:       msg,
+			ServiceID:     hs.ServiceID,
+			HostServiceID: hs.ID,
+			HostID:        hs.HostID,
+			OldStatus:     oldStatus,
+			NewStatus:     newStatus,
+			LastCheck:     time.Now(),
+		}
+	} else {
+		resp.OK = false
+		resp.Message = "Something went wrong"
 	}
 
 	// send json to client
-
-
 	out, _ := json.MarshalIndent(resp, "", "    ")
 	w.Header().Set("Content-Type", "application/json")
 	w.Write(out)
