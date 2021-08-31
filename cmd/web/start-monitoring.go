@@ -5,9 +5,10 @@ type job struct {
 	HostServiceID int
 }
 
-// Run runs the scheduler
+// Run runs the scheduler job
 func (j job) Run() {
 
+	repo.ScheduledCheck(j.HostServiceID)
 }
 
 // startMonitoring starts the monitoring process
