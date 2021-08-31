@@ -417,3 +417,19 @@ func (repo *DBRepo) SetSystemPref(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	w.Write(out)
 }
+
+// ToggleMonitoring turns monitoring on and off
+func (repo *DBRepo) ToggleMonitoring(w http.ResponseWriter, r *http.Request) {
+	enabled := r.PostForm.Get("enabled")
+	log.Println(enabled)
+
+
+	var resp jsonResp
+	resp.OK = true
+
+	out, _ := json.MarshalIndent(resp, "", "   ")
+
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(out)
+}
+
