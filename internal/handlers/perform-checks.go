@@ -3,6 +3,7 @@ package handlers
 import (
 	"encoding/json"
 	"github.com/go-chi/chi"
+	"github.com/tsawler/vigilate/internal/models"
 	"log"
 	"net/http"
 	"strconv"
@@ -36,9 +37,15 @@ func (repo *DBRepo) TestCheck(w http.ResponseWriter, r *http.Request) {
 
 	log.Println("Service name is", hs.Service.ServiceName)
 
-	// get host?
+	// get host
+	h, err := repo.DB.GetHostByID(hs.HostID)
+	if err != nil {
+		log.Println(err)
+		return
+	}
 
 	// test the service
+	repo.testServiceForHost(h, hs)
 
 	// create json
 	resp := jsonResp{
@@ -52,4 +59,9 @@ func (repo *DBRepo) TestCheck(w http.ResponseWriter, r *http.Request) {
 	out, _ := json.MarshalIndent(resp, "", "    ")
 	w.Header().Set("Content-Type", "application/json")
 	w.Write(out)
+}
+
+// testServiceForHost tests a service for a host
+func (repo *DBRepo) testServiceForHost(h models.Host, hs models.HostService) {
+
 }
