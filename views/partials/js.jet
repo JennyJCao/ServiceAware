@@ -23,7 +23,16 @@
     })
 
     publicChannel.bind("host-service-status-changed", function(data) {
-        successAlert(data.message);
+        attention.toast({
+            msg: data.message,
+            icon: 'info',
+            timer: 30000,
+            showCloseButton: true,
+        })
+
+        // update tables
+
+
     })
 
     publicChannel.bind("host-service-count-changed", function(data) {
