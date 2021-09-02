@@ -392,6 +392,15 @@ func (repo *DBRepo) ToggleServiceForHost(w http.ResponseWriter, r *http.Request)
 		resp.OK = false
 	}
 
+	// broadcast
+
+	// add or remove from schedule
+	if active == 1 {
+		// add to schedule
+	} else {
+		// remove from schedule
+	}
+
 	out, _ := json.MarshalIndent(resp, "", "    ")
 	w.Header().Set("Content-Type", "application/json")
 	w.Write(out)
