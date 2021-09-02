@@ -95,25 +95,43 @@
             let newRow = tableRef.tBodies[0].insertRow(-1);
             newRow.setAttribute("id", "host-service-" + data.host_service_id);
 
-            // insert the first td
-            let newCell = newRow.insertCell(0);
-            newCell.innerHTML = `<span class="${data.icon}"></span> ${data.service_name}
-                <span class="badge bg-secondary pointer" onclick="checkNow(${data.host_service_id}, '${data.status}')">
-                    Check Now
-                </span>`;
+            // difference between these two pages:
+                // admin/healthy - healthy.jet: Host/service/message
+                // admin/host/hostID - host.jet: Service/LastCheck/message   exist id = "host-form"
+            let hostFormExists = !!document.getElementById("host-form");
+            if (hostFormExists) {
+                // admin/host/hostID - host.jet: Service/LastCheck/message
+                // insert the first td
+                let newCell = newRow.insertCell(0);
+                newCell.innerHTML = `<span class="${data.icon}"></span> ${data.service_name}
+                    <span class="badge bg-secondary pointer" onclick="checkNow(${data.host_service_id}, '${data.status}')">
+                        Check Now
+                    </span>`;
 
-            // insert second td
-            newCell = newRow.insertCell(1);
-            if (data.status !== "pending") {
-                newCell.innerHTML = `${data.last_check}`;
+                // insert second td
+                newCell = newRow.insertCell(1);
+                if (data.status !== "pending") {
+                    newCell.innerHTML = `${data.last_check}`;
+                } else {
+                    newCell.innerHTML = "Pending...";
+                }
+
+                // insert 3rd td
+                newCell = newRow.insertCell(2);
             } else {
-                newCell.innerHTML = "Pending...";
+                // admin/healthy - healthy.jet: Host/service/message
+                // insert first td
+                let newCell = newRow.insertCell(0);
+                newCell.innerHTML = `<a href="/admin/host/${data.host_id}#${data.status}-content">${data.host_name}</a>`;
+
+                // insert the second td
+                newCell = newRow.insertCell(1);
+                newCell.innerHTML = `${data.service_name}`;
+
+                // insert 3rd td
+                newCell = newRow.insertCell(2);
             }
-
-            // insert 3rd td
-            newCell = newRow.insertCell(2);
         }
-
     }
 
     publicChannel.bind("host-service-count-changed", function(data) {
