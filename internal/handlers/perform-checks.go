@@ -174,6 +174,8 @@ func (repo *DBRepo) testServiceForHost(h models.Host, hs models.HostService) (st
 		repo.broadcastMessage("public-channel", "host-service-status-changed", data)
 	}
 
+
+
 	// TODO - send email/sms if appropriate
 
 	return newStatus, msg

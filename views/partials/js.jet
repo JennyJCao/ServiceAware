@@ -20,6 +20,21 @@
 
     publicChannel.bind("app-stopping", function(data) {
         warningAlert(data.message);
+
+        // remove all entries from the schedule page
+        let scheduleTableExists = !!document.getElementById("schedule-table");
+        if (scheduleTableExists) {
+            let scheduleTable = document.getElementById("schedule-table");
+            // remove all rows
+            scheduleTable.tBodies[0].innerHTML = "";
+
+            // add in a "No scheduled checks!" row with colspan 3
+            let newRow = scheduleTable.tBodies[0].insertRow(-1);
+            let newCell = newRow.insertCell(0);
+            newCell.setAttribute("colspan", "5");
+            newCell.innerHTML = "No scheduled checks!";
+        }
+
     })
 
     publicChannel.bind("host-service-status-changed", function(data) {
