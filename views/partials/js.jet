@@ -11,7 +11,7 @@
     });
 
     let publicChannel = pusher.subscribe("public-channel");
-    let privateChannel = pusher.subscribe("private-channel-{{.User.ID}}")
+    let privateChannel = pusher.subscribe("private-channel-{{.User.ID}}") // only user with this ID can get this message
 
     privateChannel.bind("private-message", function(data) {
         attention.alert({
