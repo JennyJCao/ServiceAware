@@ -15,10 +15,14 @@
     // in js.jet-StartMonitoring, we trigger a message to the "app-starting" event and "public-channel"
     // here we receive this message and do some operations
     publicChannel.bind("app-starting", function(data) {
+        let toggle = document.getElementById("monitoring-live");
+        toggle.checked = true;
         successAlert(data.message);
     })
 
     publicChannel.bind("app-stopping", function(data) {
+        let toggle = document.getElementById("monitoring-live");
+        toggle.checked = false;
         warningAlert(data.message);
 
         // remove all entries from the schedule page
