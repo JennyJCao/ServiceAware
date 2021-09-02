@@ -6,6 +6,7 @@ import (
 	"github.com/tsawler/vigilate/internal/models"
 	"log"
 	"net/http"
+	"sort"
 )
 
 // ByHost allows us to sort by host
@@ -40,6 +41,10 @@ func (repo *DBRepo) ListEntries(w http.ResponseWriter, r *http.Request) {
 		item.Service = hs.Service.ServiceName
 		items = append(items, item)
 	}
+
+	// sort the slice
+	sort.Sort(ByHost(items))
+
 
 	err := helpers.RenderPage(w, r, "schedule", nil, nil)
 	if err != nil {
