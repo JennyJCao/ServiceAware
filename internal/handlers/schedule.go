@@ -8,6 +8,18 @@ import (
 	"net/http"
 )
 
+// ByHost allows us to sort by host
+type ByHost []models.Schedule
+
+// Len is used to sort by host
+func (a ByHost) Len() int { return len(a) }
+
+// Less is used to sort by host
+func (a ByHost) Less(i, j int) bool { return a[i].Host < a[j].Host }
+
+// Swap is used to sort by host
+func (a ByHost) Swap(i, j int) { a[i], a[j] = a[j], a[i] }
+
 // ListEntries lists schedule entries
 func (repo *DBRepo) ListEntries(w http.ResponseWriter, r *http.Request) {
 	var items []models.Schedule
