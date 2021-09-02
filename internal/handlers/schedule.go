@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"fmt"
+	"github.com/CloudyKit/jet/v6"
 	"github.com/tsawler/vigilate/internal/helpers"
 	"github.com/tsawler/vigilate/internal/models"
 	"log"
@@ -45,8 +46,10 @@ func (repo *DBRepo) ListEntries(w http.ResponseWriter, r *http.Request) {
 	// sort the slice
 	sort.Sort(ByHost(items))
 
+	data := make(jet.VarMap)
+	data.Set("items", items)
 
-	err := helpers.RenderPage(w, r, "schedule", nil, nil)
+	err := helpers.RenderPage(w, r, "schedule", data, nil)
 	if err != nil {
 		printTemplateError(w, err)
 	}
