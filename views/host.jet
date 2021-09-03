@@ -207,7 +207,7 @@ Host
                                                     Pending...
                                                 {{end}}
                                             </td>
-                                            <td></td>
+                                            <td>{{.LastMessage}}</td>
                                         </tr>
                                         {{end}}
                                     {{end}}
@@ -248,7 +248,7 @@ Host
                                                     Pending...
                                                 {{end}}
                                             </td>
-                                            <td></td>
+                                            <td>{{.LastMessage}}</td>
                                         </tr>
                                         {{end}}
                                     {{end}}
@@ -289,7 +289,7 @@ Host
                                                     Pending...
                                                 {{end}}
                                             </td>
-                                            <td></td>
+                                            <td>{{.LastMessage}}</td>
                                         </tr>
                                         {{end}}
                                     {{end}}
@@ -330,7 +330,7 @@ Host
                                                     Pending...
                                                 {{end}}
                                             </td>
-                                            <td></td>
+                                            <td>{{.LastMessage}}</td>
                                         </tr>
                                         {{end}}
                                     {{end}}
