@@ -180,6 +180,9 @@ func (repo *DBRepo) testServiceForHost(h models.Host, hs models.HostService) (st
 	case HTTP:
 		newStatus, msg = testHTTPForHost(h.URL)
 		break
+	case HTTPS:
+		msg, newStatus = testHTTPSForHost(h.URL)
+		break
 	}
 
 	// broadcast to clients if appropriate
@@ -317,6 +320,30 @@ func testHTTPForHost(url string) (string, string) {
 	}
 
 	return "healthy", fmt.Sprintf("%s - %s", url, resp.Status)
+}
+
+// testHTTPSForHost tests HTTPS service
+func testHTTPSForHost(url string) (string, string) {
+	log.Println("Testing HTTPS")
+	if strings.HasSuffix(url, "/") {
+		url = strings.TrimSuffix(url, "/")
+	}
+
+	url = strings.Replace(url, "http://", "https://", -1)
+
+	resp, err := http.Get(url)
+	if err != nil {
+		log.Println("HTTPS error 1")
+		return fmt.Sprintf("%s - %s", url, "error connecting"), "problem"
+	}
+	defer resp.Body.Close()
+
+	if resp.StatusCode != http.StatusOK {
+		log.Println("HTTPS error 2", resp.StatusCode)
+		return fmt.Sprintf("%s - %s", url, resp.Status), "problem"
+	}
+
+	return fmt.Sprintf("%s - %s", url, resp.Status), "healthy"
 }
 
 func (repo *DBRepo) addToMonitorMap(hs models.HostService) {
