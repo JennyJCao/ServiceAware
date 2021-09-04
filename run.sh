@@ -4,10 +4,10 @@
 # run ./vigilate -help
 
 go build -o vigilate cmd/web/*.go && ./vigilate \
--dbuser='someuser' \
--pusherHost='pusher.com' \
+-dbuser='JC' \
+-pusherHost='localhost' \
 -pusherKey='abc123' \
 -pusherSecret='123abc' \
--pusherApp="1"
--pusherPort="4001"
+-pusherApp="1" \
+-pusherPort="4001" \
 -pusherSecure=false
